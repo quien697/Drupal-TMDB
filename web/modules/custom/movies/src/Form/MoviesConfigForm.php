@@ -36,7 +36,6 @@ class MoviesConfigForm extends FormBase {
       '#default_value' => $values['api_key'],
     ];
 
-    $form['actions']['typp'] = 'action';
     $form['actions']['submit'] = [
       '#type' => 'submit',
       '#value' => $this -> t(string: 'Save'),
