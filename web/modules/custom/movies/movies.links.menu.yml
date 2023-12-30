@@ -1,0 +1,6 @@
+movies.api_config_page:
+  title: 'Movies - Setting'
+  description: 'Configure settings for Movies.'
+  parent: system.admin_config
+  route_name: movies.api_config_page
+  weight: 100
