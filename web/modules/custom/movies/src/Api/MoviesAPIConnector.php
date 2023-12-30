@@ -46,20 +46,27 @@ class MoviesAPIConnector {
     if (!empty($data)) {
       foreach ($data as $item) {
         try {
-          $node = Node::create([
-            'type'             => 'movie',
-            'title'            => $item -> title,
-            'field_id'          => $item -> id,
-            'field_description' => $item -> overview,
-            'field_image_url'   => $this -> getImageURL($item -> poster_path),
-          ]);
+          $nids = \Drupal::entityQuery('node')
+                          ->condition('type', 'movie')
+                          ->condition('field_id', $item->id)
+                          ->accessCheck(FALSE)
+                          ->execute();
+
+          if (empty($nids)) {
+            $node = Node::create(['type' => 'movie']);
+          } else {
+            $node = Node::load(reset($nids));
+          }
+
+          $node -> setTitle($item -> title);
+          $node -> field_id          = $item -> id;
+          $node -> field_description = $item -> overview;
+          $node -> field_image_url   = $this -> getImageURL($item -> poster_path);
 
           $node->save();
         } catch (\Exception $e) {
-          \Drupal::logger('movies')->error('Error creating node for Movie ID '.$item -> movie_id.': '.$e->getMessage());
+          \Drupal::logger('movies')->error('Error creating node for Movie ID '.$item -> id.': '.$e -> getMessage());
         }
-
-        $node->save();
       }
     }
   }
