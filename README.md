@@ -2,7 +2,7 @@
 
 This is a [Drupal](https://www.drupal.org) practice project bootstrapped with [Composer](https://getcomposer.org).
 
-## Description
+## Detail
 
 1. It is a simple Drupal web app to display movie list.
 2. Imports data from a JSON feed [TMDB API](https://developer.themoviedb.org/docs).
@@ -12,6 +12,7 @@ This is a [Drupal](https://www.drupal.org) practice project bootstrapped with [C
 6. Create a custom twig to display image that comes from external url.
 7. Create a admin config page `/admin/config/movies` to modify api url and run corn to fetch data manually.
 8. Create a view to display moive list and set it as a home page.
+9. User name and password for drupal web app and mysql is `drupal`.
 
 ## Development Environment
 
