@@ -43,6 +43,37 @@ class MoviesConfigForm extends FormBase {
       '#button_type' => 'primary',
     ];
 
+    $form['space_after_save_button'] = [
+      '#type' => 'markup',
+      '#markup' => '<br><br>',
+    ];
+
+    $form['cron_description'] = [
+      '#type' => 'markup',
+      '#markup' => 'Run cron to update movies data from api, more cron seting please go /admin/config/system/cron.<br>',
+    ];
+
+    $form['run_cron_button'] = [
+      '#type' => 'submit',
+      '#value' => $this->t('Run cron'),
+      '#submit' => ['::runCornSubmit'],
+    ];
+
+    $form['space_after_run_cron_button'] = [
+      '#type' => 'markup',
+      '#markup' => '<br>',
+    ];
+
+    $last_run = \Drupal::state()->get('movies_imported_last_time_cron_run');
+    if ($last_run) {
+        $formatted_interval = \Drupal::service('date.formatter') -> formatTimeDiffSince($last_run);
+
+        $form['last_import'] = [
+            '#type' => 'markup',
+            '#markup' => $this->t('Last import was @time ago', ['@time' => $formatted_interval]),
+        ];
+    }
+
     return $form;
   }
 
@@ -52,6 +83,11 @@ class MoviesConfigForm extends FormBase {
 
     $messenger = \Drupal::service(id: 'messenger');
     $messenger -> addMessage($this -> t(string: 'Your new configuration has been saved.'));
+  }
+
+  public function runCornSubmit(array &$form, FormStateInterface $form_state) {
+    movies_cron();
+    \Drupal::messenger()->addMessage($this->t('Movies import triggered manually.'));
   }
 
 }
