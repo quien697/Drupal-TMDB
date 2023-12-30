@@ -1,0 +1,7 @@
+movies.api_config_page:
+  path: '/admin/config/movies'
+  defaults:
+    _form: '\Drupal\movies\Form\MoviesConfigForm'
+    _title: 'Movies - Setting'
+  requirements:
+    _permission: 'access content'

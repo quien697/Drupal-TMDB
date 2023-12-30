@@ -1,0 +1,10 @@
+<?php
+
+function movies_cron() {
+  /** @var \Drupal\movies\MoviesAPIConnector $movies.api_connector */
+  $movie_api_connector_service = \Drupal::service(id: 'movies.api_connector');
+  $data = $movie_api_connector_service -> fetchMovies();
+  $movie_api_connector_service -> createNodes($data);
+
+  \Drupal::state()->set('movies_imported_last_time_cron_run', time());
+}
