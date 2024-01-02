@@ -7,10 +7,10 @@ This is a [Drupal](https://www.drupal.org) practice project bootstrapped with [C
 1. It is a simple Drupal web app to display movie list.
 2. Imports data from a JSON feed [TMDB API](https://developer.themoviedb.org/docs).
 3. Create a custom content type called `movie`.
-4. Create a custom corn to fetching JSON data hourly and save data a node.
+4. Create a custom cron to fetching JSON data hourly and save data a node.
 5. Using Bootstrap to implement appearance.
 6. Create a custom twig to display image that comes from external url.
-7. Create a admin config page `/admin/config/movies` to modify api url and run corn to fetch data manually.
+7. Create a admin config page `/admin/config/movies` to modify api url and run cron to fetch data manually.
 8. Create a view to display moive list and set it as a home page.
 9. User name and password for drupal web app and mysql is `drupal`.
 

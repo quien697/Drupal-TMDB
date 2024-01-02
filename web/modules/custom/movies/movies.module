@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * The function will be called when system runs cron or be called this manually.
+ * 1. Fetch data.
+ * 2. Save to node.
+ * 3 Store data imported time.
+ *
+ * @return void
+ */
 function movies_cron() {
   /** @var \Drupal\movies\MoviesAPIConnector $movies.api_connector */
   $movie_api_connector_service = \Drupal::service(id: 'movies.api_connector');

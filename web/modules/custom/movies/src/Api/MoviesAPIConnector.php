@@ -3,9 +3,10 @@
 namespace Drupal\movies\Api;
 
 use Drupal\node\Entity\Node;
-use \Drupal\Core\Utility\Error;
-use GuzzleHttp\Exception\RequestException;
 
+/**
+ * Movies API Management Class
+ */
 class MoviesAPIConnector {
 
   private $client;
@@ -22,10 +23,14 @@ class MoviesAPIConnector {
     $this -> client = $client -> fromOptions([
       'base_uri' => $api_url,
       'query' => $query
-
     ]);
   }
 
+  /**
+   * Fetch data
+   *
+   * @return Json Data Type
+   */
   public function fetchMovies() {
     $data = [];
     $endpoint = '/3/discover/movie';
@@ -42,6 +47,12 @@ class MoviesAPIConnector {
     return $data -> results;
   }
 
+  /**
+   * Store Json data to node.
+   *
+   * @param [Json Data Type] $data
+   * @return void
+   */
   public function createNodes($data) {
     if (!empty($data)) {
       foreach ($data as $item) {
@@ -71,6 +82,12 @@ class MoviesAPIConnector {
     }
   }
 
+  /**
+   * Get whole path of image url
+   *
+   * @param [String] $image_path
+   * @return String
+   */
   public function getImageURL($image_path) {
     return 'https://image.tmdb.org/t/p/w500/'.$image_path;
   }

@@ -5,6 +5,14 @@ namespace Drupal\movies\Form;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 
+/**
+ * Movies Config Form Management Class
+ *
+ * 1. Two textfields to store `API base url` and `api key`
+ * 2. A button to call `movies_cron` function to run cron or movies.
+ * 3. Disply last data imported time
+ *
+ */
 class MoviesConfigForm extends FormBase {
 
   const MOVIES_API_CONFIG_PAGE = 'movies_api_config_page:values';
@@ -55,7 +63,7 @@ class MoviesConfigForm extends FormBase {
     $form['run_cron_button'] = [
       '#type' => 'submit',
       '#value' => $this->t('Run cron'),
-      '#submit' => ['::runCornSubmit'],
+      '#submit' => ['::runCronSubmit'],
     ];
 
     $form['space_after_run_cron_button'] = [
@@ -76,6 +84,13 @@ class MoviesConfigForm extends FormBase {
     return $form;
   }
 
+  /**
+   * Undocumented function
+   *
+   * @param array $form
+   * @param FormStateInterface $form_state
+   * @return void
+   */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $submitted_values = $form_state -> cleanValues() -> getValues();
     \Drupal::state() -> set(self::MOVIES_API_CONFIG_PAGE, $submitted_values);
@@ -84,7 +99,14 @@ class MoviesConfigForm extends FormBase {
     $messenger -> addMessage($this -> t(string: 'Your new configuration has been saved.'));
   }
 
-  public function runCornSubmit(array &$form, FormStateInterface $form_state) {
+  /**
+   * Run cron function
+   *
+   * @param array $form
+   * @param FormStateInterface $form_state
+   * @return void
+   */
+  public function runCronSubmit(array &$form, FormStateInterface $form_state) {
     movies_cron();
     \Drupal::messenger()->addMessage($this->t('Movies import triggered manually.'));
   }
