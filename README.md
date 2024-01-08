@@ -25,49 +25,57 @@ This is a [Drupal](https://www.drupal.org) practice project bootstrapped with [C
 ## Technologies used
 
 * Composer 2.6.6
-* Drupal 10.2.0
+* Drupal 10.2.1
 
 ## Other Modules used
 
 1. [Drush](https://www.drush.org/12.x/)
 2. [Bootstrap5](https://www.drupal.org/project/bootstrap5)
 
-## Setup MAMP
+## Getting Started
 
-Step 1: Add user in MySQL For Drupal project.
+1. Move the project to `/Users/YOUR USER NAME/Sites/Drupal-TMDB-main/web` or `/Application/MAMP/htdocs/Drupal-TMDB-main/web`. It is depending on your MAMP is free or pro. And then setting document root on MAMP.
 
-At the MySQL prompt, create the user and set the permissions using the following command:
+2. Install all of the dependencies
 
-```bash
-CREATE USER 'drupal'@'localhost' IDENTIFIED BY 'drupal';
+   ```
+   # composer install
+   ```
 
-GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX ON *.* TO 'drupal'@'localhost';
+3. Create a database
 
-GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, REFERENCES, INDEX, LOCK TABLES ON `drupal`.* TO 'drupal'@'localhost';
-```
+   ```
+   # /Applications/MAMP/Library/bin/mysql -u root -p
+   ```
 
-Step 2: Create database named `drupal_tmdb`.
+   ```mysql
+   mysql> CREATE DATABASE drupal-tmdb CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+   ```
 
-Step 3: Using `phpMyAdmin` to import database.
+4. Create a user for database
 
-Note: using phpMyAdmin to import sql, might got warning message like this
+   ```mysql
+   mysql> CREATE USER drupal@localhost IDENTIFIED BY 'drupal';
+   mysql> GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, DROP, INDEX, ALTER, CREATE TEMPORARY TABLES ON drupal-tmdb.* TO 'drupal'@'localhost' IDENTIFIED BY 'drupal';
+   mysql> FLUSH PRIVILEGES;
+   ```
 
- `You probably tried to upload too large file. Please refer to documentation for ways to workaround this limit.`
+5. Import database
 
-So following limits in the `php.ini` file.
+   ```
+   # /Applications/MAMP/Library/bin/mysql -u root -p drupal-tmdb < ~/Sites/Drupal-TMDB-main/sql/drupal_tmdb.sql
+   ```
 
-```bash
-post_max_size = 100M
-upload_max_filesize = 100M
-max_execution_time = 300
-memory_limit = 1000M
-```
+6. Start server on MAMP and open [http://localhost/core/install.php](http://localhost/core/install.php) with your browser to reinstall Drupal. And you might get messages like below, so you can press `update script` link or open [http://localhost/update.php](http://localhost/update.php) to complete database update.
 
-Step 4: Move the folder of project to the MAMP
+   Drupal already installed
 
-Step 5: Port setting in MAMP:
+   - To start over, you must empty your existing database and copy default.sertting.php over settings.php.
+   - To upgrade an existing installation, proceed to the [update script](http://localhost/update.php).
+   - View your [existing site](http://localhost).
 
-```bash
-Apache: 80
-MySQL: 3306
-```
+7. Option steps, because of installing all of dependencies, two custom twigs in bootstrap5 will be reset, so there are two files must copy to the project.
+
+   /Drupal-TMDB-main/web/themes/contrib/bootstrap5/templates/views/views-view-grid--movies.html.twig
+
+   /Drupal-TMDB-main/web/themes/contrib/bootstrap5/templates/field/field--field-image-url.html.twig
